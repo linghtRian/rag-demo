@@ -4,6 +4,7 @@ import com.ai.ragdemo1.config.LlmConfig;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.annotation.Resource;
 import okhttp3.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
@@ -20,7 +21,9 @@ public class LlmStreamUtil {
     @Resource
     private LlmConfig llmConfig;
 
-    private final OkHttpClient client = new OkHttpClient();
+    @Autowired
+    private OkHttpClient client;
+
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     /**
