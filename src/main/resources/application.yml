@@ -1,2 +1,7 @@
 server:
   port: 8080
+
+llm:
+  api-key: sk-ws-H.PMXPHEL.NSMM.MEUCIQDDSdilcrEKrpFLsmZX1PBcGlUr2kOfElVQU-1Y7Iia7AIgfScYrimdzQc46J-k9sjFuhmmUtSFIv56uB-Dealtn38
+  endpoint: https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions
+  model: qwen3.8-flash
