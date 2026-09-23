@@ -5,3 +5,14 @@ llm:
   api-key: sk-ws-H.PMXPHEL.NSMM.MEUCIQDDSdilcrEKrpFLsmZX1PBcGlUr2kOfElVQU-1Y7Iia7AIgfScYrimdzQc46J-k9sjFuhmmUtSFIv56uB-Dealtn38
   endpoint: https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions
   model: qwen3.8-flash
+
+# 本地embedding、rerank服务地址
+local-embedding:
+  endpoint: http://127.0.0.1:8081/embedding
+local-rerank:
+  endpoint: http://127.0.0.1:8082/rerank
+
+milvus:
+  host: 127.0.0.1
+  port: 19530
+  collectionName: rag_knowledge
