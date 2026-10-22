@@ -1,18 +1,50 @@
 package com.ai.ragdemo1;
 
 import com.ai.ragdemo1.util.ChunkUtil;
+import com.ai.ragdemo1.util.MinioUtil;
 import com.ai.ragdemo1.util.PdfParseUtil;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.mock.web.MockMultipartFile;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class RagDemo1ApplicationTests {
 
+    @Autowired
+    private MinioUtil minioUtil;
+
     @Test
-    void contextLoads() {
+    void contextLoads() throws IOException {
+        Path pdfPath = Paths.get("src/main/resources/file/test.pdf");
+        assertTrue(Files.exists(pdfPath), "测试文件不存在: " + pdfPath.toAbsolutePath());
+        byte[] content = Files.readAllBytes(pdfPath);
+
+        MockMultipartFile file = new MockMultipartFile(
+                "file", "test.pdf", "application/pdf", content);
+
+        // 1. 上传，拿到 objectName
+        String objectName = minioUtil.uploadFile(file);
+        assertNotNull(objectName);
+        assertTrue(objectName.endsWith(".pdf"));
+        System.out.println("objectName = " + objectName);
+
+        // 2. 读取流校验
+        try (InputStream in = minioUtil.getFileStream(objectName)) {
+            byte[] readBytes = in.readAllBytes();
+            assertTrue(readBytes.length > 0, "读取到的文件流为空");
+            assertEquals(content.length, readBytes.length, "读取大小与原文件不一致");
+        }
     }
 
     @Test

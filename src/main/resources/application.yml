@@ -12,6 +12,12 @@ local-embedding:
 local-rerank:
   endpoint: http://127.0.0.1:8082/rerank
 
+minio:
+  endpoint: http://127.0.0.1:9000
+  access‑key: minioadmin
+  secret‑key: minioadmin
+  bucket‑name: rag-knowledge-file
+
 milvus:
   host: 127.0.0.1
   port: 19530
