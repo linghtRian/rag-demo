@@ -1,7 +1,9 @@
 package com.ai.ragdemo1.controller;
 
+import com.ai.ragdemo1.service.RagService;
 import com.ai.ragdemo1.util.LlmStreamUtil;
 import jakarta.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +18,17 @@ public class AiStreamController {
 
     @Resource
     private LlmStreamUtil llmStreamUtil;
+
+    @Autowired
+    private RagService ragService;
+
+    @GetMapping(value = "/rag/chat", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public SseEmitter ragChat(@RequestParam String question){
+        SseEmitter emitter = new SseEmitter(60000L);
+        ragService.ragChat(question, emitter);
+        return emitter;
+    }
+
 
     /**
      * SSE流式对话接口
